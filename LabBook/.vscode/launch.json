@@ -1,0 +1,18 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - Server",
+            "request": "launch",
+            "mainClass": "sk.upjs.paz1c.gui.Server",
+            "projectName": "l"
+        },
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - App",
+            "request": "launch",
+            "mainClass": "sk.upjs.paz1c.gui.App",
+            "projectName": "l"
+        }
+    ]
+}
