@@ -24,29 +24,32 @@ public class LaboratoryRestController {
 		return laboratoryDao.getAll();
 	}
 
-    @RequestMapping(value="/laboratories", method = RequestMethod.POST)
-	public Laboratory addLaboratory(@RequestBody Laboratory participant) throws DaoException{
+    @RequestMapping(value="/laboratory", method = RequestMethod.POST)
+	public Laboratory addLaboratory(@RequestBody Laboratory laboratory) throws DaoException{
 		try {
-			laboratoryDao.addLaboratory(participant);
-			return participant;
+			laboratoryDao.addLaboratory(laboratory);
+			return laboratory;
 		} catch (Exception e) {
 			throw new DaoException(e);
 		}
 	}
 	
-	@RequestMapping(value="/laboratories", method = RequestMethod.PUT)
-	public void saveLaboratory(@RequestBody Laboratory participant) throws DaoException {
+	@RequestMapping(value="/laboratory", method = RequestMethod.PUT)
+	public Laboratory saveLaboratory(@RequestBody Laboratory laboratory) throws DaoException {
 		try {
-			laboratoryDao.saveLaboratory(participant);
+			laboratoryDao.saveLaboratory(laboratory);
+			return laboratory;
 		} catch (Exception e) {
 			throw new DaoException(e);
 		}
 	}
 	
-	@RequestMapping(value="/laboratories/{id}", method = RequestMethod.DELETE)
-	public void deleteLaboratory(@PathVariable long id) throws DaoException {
+	@RequestMapping(value="/laboratory/{id}", method = RequestMethod.DELETE)
+	public Laboratory deleteLaboratory(@PathVariable long id) throws DaoException {
         Laboratory lab = laboratoryDao.getLaboratoryByID(id);
 
-        laboratoryDao.deleteLaboratory(lab);
+		laboratoryDao.deleteLaboratory(lab);
+
+		return lab;
 	}
 }

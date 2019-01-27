@@ -24,29 +24,32 @@ public class ItemRestController {
 		return itemDao.getAll();
 	}
 
-    @RequestMapping(value="/items", method = RequestMethod.POST)
-	public Item addItem(@RequestBody Item participant) throws DaoException{
+    @RequestMapping(value="/item", method = RequestMethod.POST)
+	public Item addItem(@RequestBody Item item) throws DaoException{
 		try {
-			itemDao.addItem(participant);
-			return participant;
+			itemDao.addItem(item);
+			return item;
 		} catch (Exception e) {
 			throw new DaoException(e);
 		}
 	}
 	
-	@RequestMapping(value="/items", method = RequestMethod.PUT)
-	public void saveItem(@RequestBody Item participant) throws DaoException {
+	@RequestMapping(value="/item", method = RequestMethod.PUT)
+	public Item saveItem(@RequestBody Item item) throws DaoException {
 		try {
-			itemDao.saveItem(participant);
+			itemDao.saveItem(item);
+			return item;
 		} catch (Exception e) {
 			throw new DaoException(e);
 		}
 	}
 	
-	@RequestMapping(value="/items/{id}", method = RequestMethod.DELETE)
-	public void deleteItem(@PathVariable long id) throws DaoException {
+	@RequestMapping(value="/item/{id}", method = RequestMethod.DELETE)
+	public Item deleteItem(@PathVariable long id) throws DaoException {
         Item item = itemDao.getByID(id);
 
-        itemDao.deleteItem(item);
+		itemDao.deleteItem(item);
+		
+		return item;
 	}
 }
