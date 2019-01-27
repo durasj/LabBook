@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NzMessageService } from 'ng-zorro-antd';
 
-import { environment } from '../environments/environment';
+import { RestService } from './rest.service';
 
 @Component({
   selector: 'app-root',
@@ -24,67 +24,40 @@ export class AppComponent implements OnInit {
   filterAvailable = undefined;
   filterLaboratories = [];
 
-  constructor(private message: NzMessageService) {}
+  constructor(
+    private message: NzMessageService,
+    private rest: RestService,
+  ) {}
 
   async ngOnInit() {
     await this.loadLabs();
   }
 
   async loadLabs() {
-    const response = await fetch(`${environment.server}laboratories`);
+    try {
+      this.labs = await this.rest.getLaboratories();
 
-    if (response.status !== 200) {
-      this.message.error(
-        'Looks like there was a problem loading the laboratories. Status Code: ' + response.status,
-      );
-      return;
+      this.labOptions = [
+        ...this.labs.map((lab) => ({
+          value: lab.id,
+          text: lab.name,
+        })),
+        {
+          value: undefined,
+          text: 'N/A',
+        }
+      ];
+    } catch (e) {
+      this.message.error(e.message || e);
     }
-
-    const laboratories = await response.json();
-
-    this.labs = laboratories
-      .map((lab) => ({
-        id: lab.laboratoryID,
-        name: lab.name,
-        location: lab.location,
-      }));
-
-    this.labOptions = [
-      ...this.labs.map((lab) => ({
-        value: lab.id,
-        text: lab.name,
-      })),
-      {
-        value: undefined,
-        text: 'N/A',
-      }
-    ];
   }
 
   async loadItems() {
-    const response = await fetch(`${environment.server}items`);
-
-    if (response.status !== 200) {
-      this.message.error(
-        'Looks like there was a problem loading the items. Status Code: ' + response.status,
-      );
-      return;
+    try {
+      this.items = this.rawItems = await this.rest.getItems();
+    } catch (e) {
+      this.message.error(e.message || e);
     }
-
-    const items = await response.json();
-
-    this.items = this.rawItems = items
-      .map((item) => ({
-        id: item.itemID,
-        name: item.name,
-        quantity: item.quantity,
-        available: item.available,
-        laboratory: item.laboratory ? {
-          id: item.laboratory.laboratoryID,
-          name: item.laboratory.name,
-          location: item.laboratory.location,
-        } : undefined,
-      }));
   }
 
   async changePage(directive) {
@@ -104,8 +77,6 @@ export class AppComponent implements OnInit {
   }
 
   filter(byKey, $event): void {
-    console.log(byKey, $event);
-
     if (byKey === 'laboratory') {
       this.filterLaboratories = $event;
     }
