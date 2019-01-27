@@ -1,0 +1,52 @@
+<nz-layout class="layout">
+  <nz-header>
+    <div class="logo">
+      <h1>LabBook</h1>
+    </div>
+    <ul nz-menu [nzTheme]="'dark'" [nzMode]="'horizontal'" (nzClick)="changePage($event)">
+      <li nz-menu-item [nzSelected]="true" key="labs">Laboratories</li>
+      <li nz-menu-item key="items">Items</li>
+    </ul>
+  </nz-header>
+  <nz-content class="content" *ngIf="activeKey === 'labs'">
+    <nz-table #labsTable [nzData]="labs">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Location</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let data of labsTable.data">
+          <td>{{data.id}}</td>
+          <td>{{data.name}}</td>
+          <td>{{data.location}}</td>
+        </tr>
+      </tbody>
+    </nz-table>
+  </nz-content>
+  <nz-content class="content" *ngIf="activeKey === 'items'">
+      <nz-table #itemsTable [nzData]="items">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Quantity</th>
+            <th nzSortKey="available" nzShowFilter [nzFilters]="availableOptions" [nzFilterMultiple]="false" (nzFilterChange)="filter('available', $event)">Available</th>
+            <th nzSortKey="laboratory" nzShowFilter [nzFilters]="labOptions" (nzFilterChange)="filter('laboratory', $event)">Laboratory</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let data of itemsTable.data">
+            <td>{{data.id}}</td>
+            <td>{{data.name}}</td>
+            <td>{{data.quantity}}</td>
+            <td>{{data.available ? 'Yes' : 'No'}}</td>
+            <td>{{data.laboratory ? data.laboratory.name : 'N/A'}}</td>
+          </tr>
+        </tbody>
+      </nz-table>
+    </nz-content>
+</nz-layout>
+
