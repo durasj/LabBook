@@ -8,13 +8,25 @@ public class Project {
 	private Long projectID;
 	private String name;
 	private boolean active;
-	private LocalDate from;
-	private LocalDate until;
+	private LocalDate dateFrom;
+	private LocalDate dateUntil;
+	private User createdBy;
 	private List<Task> tasks;
 	private List<Item> items;
-	private boolean allItemsAvailable;
-	private User createdBy;
+	private boolean eachItemAvailable;
 	private List<User> completedBy;
+
+	public Project() {
+
+	}
+
+	public Project(String name, LocalDate dateFrom, LocalDate dateUntil, boolean active) {
+		super();
+		this.name = name;
+		this.dateFrom = dateFrom;
+		this.dateUntil = dateUntil;
+		this.active = true;
+	}
 
 	public Long getProjectID() {
 		return projectID;
@@ -40,20 +52,20 @@ public class Project {
 		this.active = active;
 	}
 
-	public LocalDate getFrom() {
-		return from;
+	public LocalDate getDateFrom() {
+		return dateFrom;
 	}
 
-	public void setFrom(LocalDate from) {
-		this.from = from;
+	public void setDateFrom(LocalDate from) {
+		this.dateFrom = from;
 	}
 
-	public LocalDate getUntil() {
-		return until;
+	public LocalDate getDateUntil() {
+		return dateUntil;
 	}
 
-	public void setUntil(LocalDate until) {
-		this.until = until;
+	public void setDateUntil(LocalDate until) {
+		this.dateUntil = until;
 	}
 
 	public List<Task> getTasks() {
@@ -72,12 +84,12 @@ public class Project {
 		this.items = items;
 	}
 
-	public boolean isAllItemsAvailable() {
-		return allItemsAvailable;
+	public boolean isEachItemAvailable() {
+		return eachItemAvailable;
 	}
 
-	public void setAllItemsAvailable(boolean allItemsAvailable) {
-		this.allItemsAvailable = allItemsAvailable;
+	public void setEachItemAvailable(boolean eachItemAvailable) {
+		this.eachItemAvailable = eachItemAvailable;
 	}
 
 	public User getCreatedBy() {
@@ -94,6 +106,11 @@ public class Project {
 
 	public void setCompletedBy(List<User> completedBy) {
 		this.completedBy = completedBy;
+	}
+
+	@Override
+	public String toString() {
+		return "Project [projectID=" + projectID + ", name=" + name + "]";
 	}
 
 }
